@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/homeFragment"
+    android:id="@+id/nav">
+<fragment
+    android:id="@+id/homeFragment"
+    android:label="Home"
+    tools:layout="@layout/fragment_home"
+    android:name="com.example.islamicapp.Fragment.HomeFragment" >
+    <argument
+        android:name="number"
+        app:argType="integer" />
+    <action
+        android:id="@+id/action_homeFragment_to_surahQuranFragment"
+        app:destination="@id/surahQuranFragment" />
+    <action
+        android:id="@+id/action_homeFragment_to_duaFragment"
+        app:destination="@id/duaFragment" />
+    <action
+        android:id="@+id/action_homeFragment_to_prayerFragment"
+        app:destination="@id/prayerFragment" />
+    <action
+        android:id="@+id/action_homeFragment_to_tasbihFragment"
+        app:destination="@id/tasbihFragment" />
+    <action
+        android:id="@+id/action_homeFragment_to_continueToRead"
+        app:destination="@id/continueToRead" />
+
+</fragment>
+
+    <fragment
+        android:id="@+id/surahQuranFragment"
+        android:label="Surahs Quran"
+        tools:layout="@layout/fragment_surah__quran_"
+        android:name="com.example.islamicapp.Fragment.SurahQuranFragment">
+        <action
+            android:id="@+id/action_surahQuranFragment_to_ayahsFragment"
+            app:destination="@id/ayahsFragment" />
+        <action
+            android:id="@+id/action_surahQuranFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/ayahsFragment"
+        android:label="Ayahs"
+        tools:layout="@layout/fragment_ayahs"
+        android:name="com.example.islamicapp.Fragment.AyahsFragment"
+        >
+        <action
+            android:id="@+id/action_ayahsFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+
+    <fragment android:id="@+id/duaFragment"
+        tools:layout="@layout/fragment_dua"
+        android:label="Dua"
+        android:name="com.example.islamicapp.Fragment.DuaFragment"
+        >
+
+    </fragment>
+
+    <fragment
+       android:id="@+id/prayerFragment"
+        tools:layout="@layout/fragment_prayer__times_"
+        android:label="Prayer"
+        android:name="com.example.islamicapp.Fragment.Prayer_Times_Fragment"
+        >
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/tasbihFragment"
+        tools:layout="@layout/fragment_tasbih"
+        android:label="Tasbih"
+        android:name="com.example.islamicapp.Fragment.TasbihFragment">
+    </fragment>
+
+    <fragment
+        android:id="@+id/continueToRead"
+        tools:layout="@layout/fragment_continue_to_read"
+        android:label="Continue To Read"
+        android:name="com.example.islamicapp.Fragment.ContinueToReadFragment">
+
+    </fragment>
+
+
+
+
+
+</navigation>
