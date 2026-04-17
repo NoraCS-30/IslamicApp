@@ -50,7 +50,7 @@ class Prayer_Times_Fragment : Fragment() {
     private var madienahPrayerData: Prayer? = null
     private var aqsaPrayerData: Prayer? = null
     private lateinit var Context:Context
-   private var addressText:String= null.toString()
+   private var addressText:String= ""
     private val dateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH)
     private val currentDateString: String = dateFormat.format(Date())
 
@@ -59,26 +59,36 @@ class Prayer_Times_Fragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentPrayerTimesBinding.inflate(inflater, container, false)
-        Context=container!!.context
+        Context=requireContext()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         val repositoryPrayer = RepositoryPrayer()
         val prayerViewModelFactory = PrayerViewModelFactory(repositoryPrayer)
         viewModel = ViewModelProvider(this, prayerViewModelFactory).get(PrayerViewModel::class.java)
         locationClient = LocationServices.getFusedLocationProviderClient(requireContext())
         geocoder = Geocoder(requireContext())
 
-        binding.iconLocation.setOnClickListener {
+        if (ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
             getLocation()
+        } else {
+            requestPermissions(
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                1001
+            )
         }
 
         viewModel.responsePrayer.observe(viewLifecycleOwner) { response ->
             if (response.isSuccessful) {
                localPrayerData = response.body()
+                binding.NameOfPrayer.text = "Fajr"
+                binding.TimeOfPrayer.text = localPrayerData?.data?.timings?.Fajr
                  } else {
                 Log.d("API", "Error: ${response.errorBody()?.string()}")
             }
@@ -88,6 +98,8 @@ class Prayer_Times_Fragment : Fragment() {
             Log.d("ApiMakkah", "Response: ${response.isSuccessful}")
             if (response.isSuccessful) {
                 makkahPrayerData = response.body()
+                binding.NameOfPrayerMakkah.text="Fajr"
+                binding.TimeOfPrayerMakkah.text = makkahPrayerData?.data?.timings?.Fajr
             }
         }
 
@@ -95,6 +107,8 @@ class Prayer_Times_Fragment : Fragment() {
         viewModel.responsePrayerMadienah.observe(viewLifecycleOwner) { response ->
             if (response.isSuccessful) {
                 madienahPrayerData = response.body()
+                binding.NameOfPrayerMadienah.text="Fajr"
+                binding.TimeOfPrayerMadienah.text = madienahPrayerData?.data?.timings?.Fajr
             }
         }
 
@@ -102,6 +116,8 @@ class Prayer_Times_Fragment : Fragment() {
         viewModel.responsePrayerAqsa.observe(viewLifecycleOwner) { response ->
             if (response.isSuccessful) {
                aqsaPrayerData = response.body()
+                binding.NameOfPrayerAqsa.text="Fajr"
+                binding.TimeOfPrayerAqsa.text = aqsaPrayerData?.data?.timings?.Fajr
                   }
         }
 
@@ -162,32 +178,8 @@ class Prayer_Times_Fragment : Fragment() {
         }
     }
 
-
-    private fun getLocation() {
-        if (ContextCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 1001)
-            return
-        }
-
-        locationClient.lastLocation.addOnSuccessListener { location ->
-            if (location != null) {
-                lat = location.latitude
-                lon = location.longitude
-                fetchAddressAndPrayerTimes(lat, lon)
-            } else {
-                requestNewLocationData()
-            }
-        }.addOnFailureListener {
-            Log.e("LOCATION", "Failed to get location: ${it.message}")
-        }
-    }
-
     @SuppressLint("MissingPermission")
-    private fun requestNewLocationData() {
+    private fun getLocation() {
         val locationRequest = LocationRequest.Builder(
             Priority.PRIORITY_HIGH_ACCURACY, 1000
         ).setMaxUpdates(1).build()
@@ -202,11 +194,12 @@ class Prayer_Times_Fragment : Fragment() {
                         lon = location.longitude
                         fetchAddressAndPrayerTimes(lat, lon)
                     } else {
-                        Toast.makeText(requireContext(), "تعذر الحصول على الموقع", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), "فشل تحديد الموقع", Toast.LENGTH_SHORT).show()
                     }
                     locationClient.removeLocationUpdates(this)
                 }
-            }, Looper.getMainLooper()
+            },
+            Looper.getMainLooper()
         )
     }
 

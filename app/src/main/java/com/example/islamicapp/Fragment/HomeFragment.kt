@@ -2,6 +2,7 @@ package com.example.islamicapp.Fragment
 
 
 
+
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -35,7 +36,6 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val repositorySura= RepositorySurah()
@@ -43,7 +43,7 @@ class HomeFragment : Fragment() {
         viewModel= ViewModelProvider(this,homeViewModelFactory).get(HomePageViewModel::class.java)
         getDate()
 
-        binding.layoutIconQuran.setOnClickListener {
+     binding.layoutIconQuran.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_surahQuranFragment)
         }
 
@@ -57,10 +57,17 @@ class HomeFragment : Fragment() {
         binding.layoutIconTasbih.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_tasbihFragment)
         }
+
+
         binding.go.setOnClickListener {
             val bundle = Bundle()
             var id=sharedViewModel.selectedSurah
-            bundle.putInt("ID", id.value!!)
+            if(id.value==null){
+                bundle.putInt("ID", 1)
+            }
+            else {
+                bundle.putInt("ID", id.value!!)
+            }
             findNavController().navigate(R.id.action_homeFragment_to_continueToRead, bundle)
         }
 

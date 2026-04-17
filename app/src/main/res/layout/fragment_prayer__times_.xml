@@ -30,6 +30,7 @@
         app:layout_constraintStart_toEndOf="@+id/iconLocation"
         app:layout_constraintTop_toTopOf="@+id/iconLocation"
         app:layout_constraintVertical_bias="0.0"
+        android:textAlignment="viewStart"
         tools:text="Makkah ,SA" />
 
     <LinearLayout
@@ -58,7 +59,9 @@
             android:textAllCaps="false"
             android:textColor="@color/black"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:maxLines="1"
+            android:ellipsize="end"/>
 
         <Button
             android:id="@+id/btn_dhahr"
@@ -73,7 +76,9 @@
             android:textAllCaps="false"
             android:textColor="@color/black"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:maxLines="1"
+            android:ellipsize="end"/>
 
         <Button
             android:id="@+id/btn_asr"
@@ -88,7 +93,9 @@
             android:textAllCaps="false"
             android:textColor="@color/black"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:maxLines="1"
+            android:ellipsize="end"/>
 
         <Button
             android:id="@+id/btn_maghrib"
@@ -103,7 +110,9 @@
             android:textAllCaps="false"
             android:textColor="@color/black"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:maxLines="1"
+            android:ellipsize="end"/>
 
         <Button
             android:id="@+id/btn_isha"
@@ -117,7 +126,9 @@
             android:textAllCaps="false"
             android:textColor="@color/black"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:maxLines="1"
+            android:ellipsize="end"/>
     </LinearLayout>
 
     <FrameLayout
